@@ -3,11 +3,8 @@ package com.upc.authjwt20251.Controller;
 import com.upc.authjwt20251.DTO.UsuarioDTO;
 import com.upc.authjwt20251.Entities.Usuario;
 import com.upc.authjwt20251.Service.UsuarioService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,7 +22,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> listAll() {
+    public List<Map<String, Object>> listAll() {
         List<Usuario> usuarios = usuarioService.findAll();
         List<Map<String, Object>> response = new ArrayList<>();
 
@@ -39,11 +36,11 @@ public class UsuarioController {
             response.add(resp);
         }
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return response;
     }
 
-    @PostMapping("/inserta")
-    public ResponseEntity<Map<String, Object>> create(@Valid @RequestBody UsuarioDTO dto) {
+    @PostMapping
+    public Map<String, Object> create(@RequestBody UsuarioDTO dto) {
         Usuario u = usuarioService.create(dto);
 
         Map<String, Object> resp = new LinkedHashMap<>();
@@ -53,16 +50,13 @@ public class UsuarioController {
         resp.put("enabled", u.getEnabled());
         resp.put("rolId", u.getRol().getId());
 
-        return new ResponseEntity<>(resp, HttpStatus.CREATED);
+        return resp;
     }
 
-    @PutMapping("/modifica/{id}")
-    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @Valid @RequestBody UsuarioDTO dto) {
+    @PutMapping("/{id}")
+    public Map<String, Object> update(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
         Usuario u = usuarioService.update(id, dto);
-
-        if (u == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        if (u == null) return null;
 
         Map<String, Object> resp = new LinkedHashMap<>();
         resp.put("id", u.getId());
@@ -71,12 +65,11 @@ public class UsuarioController {
         resp.put("enabled", u.getEnabled());
         resp.put("rolId", u.getRol().getId());
 
-        return new ResponseEntity<>(resp, HttpStatus.OK);
+        return resp;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         usuarioService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -21,7 +21,7 @@ public class ProveedorServicioController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('PROVEEDOR', 'ADMINISTRADOR')")
+    @PreAuthorize("hasAnyRole('PROVEEDOR', 'ADMINISTRADOR', 'LOCAL')")
     public ResponseEntity<List<ProveedorServicioDTO>> findAllDTO() {
         return ResponseEntity.ok(service.findAllDTO());
     }

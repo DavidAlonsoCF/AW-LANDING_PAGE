@@ -23,7 +23,7 @@ public class AlojamientoService {
     public Alojamiento create(AlojamientoDTO dto) {
         Alojamiento alojamiento = new Alojamiento();
         alojamiento.setNombre(dto.getNombre());
-        alojamiento.setPrecio(dto.getPrecioPorNoche());
+        alojamiento.setPrecio(dto.getPrecio());
         return alojamientoRepository.save(alojamiento);
     }
 
@@ -31,7 +31,7 @@ public class AlojamientoService {
         Alojamiento buscado = alojamientoRepository.findById(id).orElse(null);
         if (buscado != null) {
             buscado.setNombre(dto.getNombre());
-            buscado.setPrecio(dto.getPrecioPorNoche());
+            buscado.setPrecio(dto.getPrecio());
             return alojamientoRepository.save(buscado);
         }
         return null;

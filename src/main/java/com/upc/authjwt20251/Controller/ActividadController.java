@@ -26,13 +26,13 @@ public class ActividadController {
     }
 
     @PostMapping("/inserta")
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'TURISTA')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'LOCAL')")
     public ActividadDTO create(@Valid @RequestBody ActividadDTO dto) {
         return actividadService.create(dto);
     }
 
     @PutMapping("/modifica/{id}")
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'TURISTA')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'LOCAL')")
     public ActividadDTO update(@PathVariable Long id, @Valid @RequestBody ActividadDTO dto) {
         return actividadService.update(id, dto);
     }

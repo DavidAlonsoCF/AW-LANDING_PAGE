@@ -17,49 +17,43 @@ public class PaqueteTuristicoService {
         this.repository = repository;
     }
 
-    private PaqueteTuristicoDTO toDTO(PaqueteTuristico p) {
-        if (p == null) return null;
-        PaqueteTuristicoDTO dto = new PaqueteTuristicoDTO();
-        dto.setId(p.getId());
-        dto.setNombre(p.getNombre());
-        dto.setPrecio(p.getPrecio());
+    private PaqueteTuristicoDTO toDTO(PaqueteTuristico entity) {
+        if (entity == null) return null;
 
-        dto.setReservaId(p.getReservas() != null ? (long) p.getReservas().size() : 0L);
-        dto.setPromocionId(p.getPromociones() != null ? (long) p.getPromociones().size() : 0L);
-        dto.setPaqueteActividadId(p.getPaquetesActividad() != null ? (long) p.getPaquetesActividad().size() : 0L);
+        PaqueteTuristicoDTO dto = new PaqueteTuristicoDTO();
+        dto.setId(entity.getId());
+        dto.setNombre(entity.getNombre());
+        dto.setPrecio(entity.getPrecio());
 
         return dto;
     }
 
-    private PaqueteTuristico toEntity(PaqueteTuristicoDTO dto) {
-        PaqueteTuristico p = new PaqueteTuristico();
-        p.setNombre(dto.getNombre());
-        p.setPrecio(dto.getPrecio());
-
-        return p;
+    private void updateEntityFromDTO(PaqueteTuristicoDTO dto, PaqueteTuristico entity) {
+        entity.setNombre(dto.getNombre());
+        entity.setPrecio(dto.getPrecio());
     }
 
     public List<PaqueteTuristicoDTO> findAllDTO() {
-        return repository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+        return repository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     public PaqueteTuristicoDTO create(PaqueteTuristicoDTO dto) {
-        PaqueteTuristico pToSave = toEntity(dto);
-        PaqueteTuristico saved = repository.save(pToSave);
-
+        PaqueteTuristico entity = new PaqueteTuristico();
+        updateEntityFromDTO(dto, entity);
+        PaqueteTuristico saved = repository.save(entity);
         return toDTO(saved);
     }
 
     public PaqueteTuristicoDTO update(Long id, PaqueteTuristicoDTO dto) {
-        PaqueteTuristico p = repository.findById(id).orElse(null);
-
-        if (p != null) {
-            p.setNombre(dto.getNombre());
-            p.setPrecio(dto.getPrecio());
-
-            PaqueteTuristico updated = repository.save(p);
-            return toDTO(updated);
-        }
-        return null;
+        return repository.findById(id)
+                .map(entity -> {
+                    updateEntityFromDTO(dto, entity);
+                    PaqueteTuristico updated = repository.save(entity);
+                    return toDTO(updated);
+                })
+                .orElse(null);
     }
 }

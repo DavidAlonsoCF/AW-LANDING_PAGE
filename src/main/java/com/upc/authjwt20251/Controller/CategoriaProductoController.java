@@ -22,7 +22,7 @@ public class CategoriaProductoController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'PROVEEDOR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'PROVEEDOR', 'LOCAL')")
     public ResponseEntity<List<CategoriaProductoDTO>> findAll() {
         return ResponseEntity.ok(service.findAllDTO());
     }

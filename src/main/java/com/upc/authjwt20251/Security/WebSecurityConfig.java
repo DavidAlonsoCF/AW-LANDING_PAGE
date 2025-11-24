@@ -54,82 +54,26 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http.csrf().disable()
                 .authorizeRequests()
+                // PÚBLICOS
                 .antMatchers(
                         "/authenticate",
-                        "/rol/**",
                         "/usuario/**",
+                        "/rol/**",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html",
                         "/swagger-ui/index.html"
                 ).permitAll()
 
-                // Rol ADMINISTRADOR
-                .antMatchers("/**").hasRole("ADMINISTRADOR")
+                // PERFIL: cualquier usuario autenticado
+                .antMatchers("/miperfil/**").authenticated()
 
-                // Rol TURISTA
-                .antMatchers(HttpMethod.GET,
-                        "/actividad/**",
-                        "/alojamiento/**",
-                        "/carrito/**",
-                        "/destino/**",
-                        "/detalleCarrito/**",
-                        "/historialPuntos/**",
-                        "/notificacion/**",
-                        "/opinionLocal/**",
-                        "/opinionTurista/**",
-                        "/paqueteActividad/**",
-                        "/pago/**",
-                        "/paqueteTuristico/**",
-                        "/productoLocal/**",
-                        "/promocion/**",
-                        "/proveedorServicio/**",
-                        "/puntosFidelidad/**",
-                        "/reserva/**"
-                ).hasRole("TURISTA")
-                .antMatchers(HttpMethod.POST,
-                        "/reserva/**",
-                        "/pago/**",
-                        "/detalleCarrito/**",
-                        "/opinionLocal/**",
-                        "/opinionTurista/**",
-                        "/carrito/**"
-                ).hasRole("TURISTA")
-
-                // Rol LOCAL
-                .antMatchers(HttpMethod.GET,
-                        "/productoLocal/**",
-                        "/paqueteActividad/**",
-                        "/paqueteTuristico/**"
-                ).hasRole("LOCAL")
-                .antMatchers(HttpMethod.POST,
-                        "/productoLocal/**",
-                        "/paqueteActividad/**",
-                        "/paqueteTuristico/**"
-                ).hasRole("LOCAL")
-                .antMatchers(HttpMethod.PUT,
-                        "/productoLocal/**",
-                        "/paqueteActividad/**",
-                        "/paqueteTuristico/**"
-                ).hasRole("LOCAL")
-
-                // Rol PROVEEDOR
-                .antMatchers(HttpMethod.GET,
-                        "/productoLocal/**",
-                        "/proveedorServicio/**"
-                ).hasRole("PROVEEDOR")
-                .antMatchers(HttpMethod.POST,
-                        "/productoLocal/**",
-                        "/proveedorServicio/**"
-                ).hasRole("PROVEEDOR")
-                .antMatchers(HttpMethod.PUT,
-                        "/productoLocal/**",
-                        "/proveedorServicio/**"
-                ).hasRole("PROVEEDOR")
-
+                // TODO LO DEMÁS: autenticado
                 .anyRequest().authenticated()
+
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
@@ -140,4 +84,5 @@ public class WebSecurityConfig {
 
         return http.build();
     }
+
 }
