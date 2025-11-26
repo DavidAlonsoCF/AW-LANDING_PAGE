@@ -52,19 +52,26 @@ public class CarritoCompraService {
 
         carrito.getDetalles().clear();
 
-        List<DetalleCarrito> detalles = dto.getDetalles().stream().map(d -> {
+        for (DetalleCarritoDTO d : dto.getDetalles()) {
             DetalleCarrito detalle = new DetalleCarrito();
-            detalle.setProductoLocal(productoLocalRepository.findById(d.getProductoLocalId()).orElse(null));
+
+            if (d.getId() != null) {
+                detalle.setId(d.getId());
+            }
+
+            detalle.setProductoLocal(
+                    productoLocalRepository.findById(d.getProductoLocalId()).orElse(null)
+            );
             detalle.setCantidad(d.getCantidad());
             detalle.setCarritoCompra(carrito);
-            return detalle;
-        }).toList();
 
-        carrito.setDetalles(detalles);
+            carrito.getDetalles().add(detalle);
+        }
 
         carritoCompraRepository.save(carrito);
         return toDTO(carrito);
     }
+
 
     private CarritoCompraDTO toDTO(CarritoCompra carrito) {
         List<DetalleCarritoDTO> detallesDTO = carrito.getDetalles().stream()

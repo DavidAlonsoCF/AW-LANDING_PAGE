@@ -22,7 +22,7 @@ public class ProductoLocalController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('LOCAL', 'ADMINISTRADOR')")
+    @PreAuthorize("hasAnyRole('LOCAL', 'ADMINISTRADOR', 'TURISTA')")
     public ResponseEntity<List<ProductoLocalDTO>> findAll() {
         return ResponseEntity.ok(productoLocalService.findAll());
     }

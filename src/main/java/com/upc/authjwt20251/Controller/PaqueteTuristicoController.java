@@ -22,7 +22,7 @@ public class PaqueteTuristicoController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('LOCAL', 'ADMINISTRADOR')")
+    @PreAuthorize("hasAnyRole('TURISTA','LOCAL', 'ADMINISTRADOR')")
     public ResponseEntity<List<PaqueteTuristicoDTO>> findAll() {
         return new ResponseEntity<>(service.findAllDTO(), HttpStatus.OK);
     }

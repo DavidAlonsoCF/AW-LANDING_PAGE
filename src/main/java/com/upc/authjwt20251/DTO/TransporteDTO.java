@@ -10,6 +10,8 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransporteDTO {
+    private Long id;
+
     @NotBlank(message = "El tipo de transporte es obligatorio.")
     @Size(max = 50, message = "El tipo de transporte no puede exceder los 50 caracteres.")
     private String tipo;
@@ -22,14 +24,6 @@ public class TransporteDTO {
     @Positive(message = "El precio debe ser un valor positivo.")
     private Double precio;
 
-    @NotNull(message = "El ID del paquete turístico es obligatorio.")
-    @Min(value = 1, message = "El ID del paquete turistico debe ser un valor positivo.")
-    private Long paqueteTuristicoId;
-
-    @NotNull(message = "El ID de la reserva es obligatorio.")
-    @Min(value = 1, message = "El ID de la reserva debe ser un valor positivo.")
-    private Long reservaId;
-
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
 
@@ -39,9 +33,4 @@ public class TransporteDTO {
     public Double getPrecio() { return precio; }
     public void setPrecio(Double precio) { this.precio = precio; }
 
-    public Long getPaqueteTuristicoId() { return paqueteTuristicoId; }
-    public void setPaqueteTuristicoId(Long paqueteTuristicoId) { this.paqueteTuristicoId = paqueteTuristicoId; }
-
-    public Long getReservaId() { return reservaId; }
-    public void setReservaId(Long reservaId) { this.reservaId = reservaId; }
 }

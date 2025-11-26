@@ -36,11 +36,6 @@ public class TransporteController {
     @PutMapping("/modifica/{id}")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<TransporteDTO> update(@PathVariable Long id, @Valid @RequestBody TransporteDTO dto) {
-        TransporteDTO updated = transporteService.update(id, dto);
-
-        if (updated == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(updated, HttpStatus.OK);
+        return new ResponseEntity<>(transporteService.update(id, dto), HttpStatus.OK);
     }
 }
