@@ -36,4 +36,17 @@ public class ActividadController {
     public ActividadDTO update(@PathVariable Long id, @Valid @RequestBody ActividadDTO dto) {
         return actividadService.update(id, dto);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public void delete(@PathVariable Long id) {
+        actividadService.delete(id);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ActividadDTO findById(@PathVariable Long id) {
+        return actividadService.findByIdDTO(id);
+    }
+
 }

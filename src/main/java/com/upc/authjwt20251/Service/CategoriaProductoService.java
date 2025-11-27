@@ -63,4 +63,21 @@ public class CategoriaProductoService {
 
         return new CategoriaProductoDTO(categoria.getId(), categoria.getNombre(), productoIds);
     }
+
+    public boolean delete(Long id) {
+        CategoriaProducto categoria = repo.findById(id).orElse(null);
+
+        if (categoria == null) {
+            return false;
+        }
+
+        repo.delete(categoria);
+        return true;
+    }
+
+    public CategoriaProductoDTO findByIdDTO(Long id) {
+        CategoriaProducto categoria = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+        return toDTO(categoria);
+    }
 }

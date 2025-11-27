@@ -84,4 +84,15 @@ public class PromocionService {
         }
         return null;
     }
+
+    public boolean delete(Long id) {
+        Promocion p = promocionRepository.findById(id).orElse(null);
+
+        if (p == null) {
+            return false;
+        }
+
+        promocionRepository.delete(p);
+        return true;
+    }
 }

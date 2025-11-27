@@ -36,4 +36,16 @@ public class AlojamientoService {
         }
         return null;
     }
+
+    public void delete(Long id) {
+        Alojamiento buscado = alojamientoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado con ID: " + id));
+
+        alojamientoRepository.delete(buscado);
+    }
+
+    public Alojamiento findById(Long id) {
+        return alojamientoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
+    }
 }

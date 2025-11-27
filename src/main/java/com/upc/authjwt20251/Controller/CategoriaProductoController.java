@@ -38,4 +38,23 @@ public class CategoriaProductoController {
     public ResponseEntity<CategoriaProductoDTO> update(@PathVariable Long id, @Valid @RequestBody CategoriaProductoDTO dto) {
         return ResponseEntity.ok(service.updateDTO(id, dto));
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = service.delete(id);
+
+        if (!eliminado) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public CategoriaProductoDTO findById(@PathVariable Long id) {
+        return service.findByIdDTO(id);
+    }
+
 }

@@ -40,4 +40,16 @@ public class DetalleCarritoController {
         if(updated == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasAnyRole('TURISTA', 'ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = detalleCarritoService.delete(id);
+
+        if (!eliminado) {
+            return ResponseEntity.notFound().build(); // 404
+        }
+
+        return ResponseEntity.noContent().build(); // 204
+    }
 }

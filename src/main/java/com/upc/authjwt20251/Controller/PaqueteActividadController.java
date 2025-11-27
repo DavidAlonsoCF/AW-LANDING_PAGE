@@ -44,4 +44,22 @@ public class PaqueteActividadController {
         }
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = service.delete(id);
+
+        if (!eliminado) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public PaqueteActividadDTO findById(@PathVariable Long id) {
+        return service.findByIdDTO(id);
+    }
 }

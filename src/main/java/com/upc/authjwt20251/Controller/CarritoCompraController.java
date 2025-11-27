@@ -45,4 +45,16 @@ public class CarritoCompraController {
 
         return ResponseEntity.ok(updated);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasAnyRole('TURISTA', 'ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = carritoCompraService.delete(id);
+
+        if (!eliminado) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
 }

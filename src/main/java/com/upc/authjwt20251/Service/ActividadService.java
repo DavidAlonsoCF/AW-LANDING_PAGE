@@ -60,4 +60,24 @@ public class ActividadService {
         dto.setId(a.getId());
         return dto;
     }
+
+    public void delete(Long id) {
+        Actividad a = actividadRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
+        actividadRepository.delete(a);
+    }
+
+    public ActividadDTO findByIdDTO(Long id) {
+        Actividad act = actividadRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
+
+        ActividadDTO dto = new ActividadDTO();
+        dto.setId(act.getId());
+        dto.setNombre(act.getNombre());
+        dto.setDescripcion(act.getDescripcion());
+        dto.setPrecio(act.getPrecio());
+        dto.setPaqueteActividadId(act.getPaqueteActividad().getId());
+        return dto;
+    }
+
 }

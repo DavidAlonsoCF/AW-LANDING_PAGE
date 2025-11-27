@@ -38,4 +38,16 @@ public class TransporteController {
     public ResponseEntity<TransporteDTO> update(@PathVariable Long id, @Valid @RequestBody TransporteDTO dto) {
         return new ResponseEntity<>(transporteService.update(id, dto), HttpStatus.OK);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = transporteService.delete(id);
+
+        if (!eliminado) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
 }

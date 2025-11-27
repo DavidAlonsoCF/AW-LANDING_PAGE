@@ -113,4 +113,15 @@ public class ReservaService {
                 r.getCantidadPersonas()
         );
     }
+
+    public boolean delete(Long id) {
+        Reserva r = reservaRepository.findById(id).orElse(null);
+
+        if (r == null) {
+            return false;
+        }
+
+        reservaRepository.delete(r);
+        return true;
+    }
 }

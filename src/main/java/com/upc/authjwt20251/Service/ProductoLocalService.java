@@ -75,4 +75,22 @@ public class ProductoLocalService {
                 producto.getProveedor() != null ? producto.getProveedor().getId() : null
         );
     }
+
+    public boolean delete(Long id) {
+        ProductoLocal producto = productoLocalRepository.findById(id).orElse(null);
+
+        if (producto == null) {
+            return false;
+        }
+
+        productoLocalRepository.delete(producto);
+        return true;
+    }
+
+    public ProductoLocalDTO findByIdDTO(Long id) {
+        ProductoLocal producto = productoLocalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto Local no encontrado"));
+
+        return toDTO(producto);
+    }
 }

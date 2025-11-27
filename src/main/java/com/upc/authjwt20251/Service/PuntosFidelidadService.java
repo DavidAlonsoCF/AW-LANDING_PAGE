@@ -62,4 +62,15 @@ public class PuntosFidelidadService {
         }
         return null;
     }
+
+    public boolean delete(Long id) {
+        PuntosFidelidad p = puntosFidelidadRepository.findById(id).orElse(null);
+
+        if (p == null) {
+            return false;
+        }
+
+        puntosFidelidadRepository.delete(p);
+        return true;
+    }
 }

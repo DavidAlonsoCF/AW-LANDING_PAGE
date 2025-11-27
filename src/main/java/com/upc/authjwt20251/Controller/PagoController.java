@@ -48,4 +48,16 @@ public class PagoController {
             @RequestParam int anioFin) {
         return new ResponseEntity<>(pagoService.findPagosEntreAnios(anioInicio, anioFin), HttpStatus.OK);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = pagoService.delete(id);
+
+        if (!eliminado) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -2,74 +2,74 @@ package com.upc.authjwt20251.Controller;
 
 import com.upc.authjwt20251.DTO.UsuarioDTO;
 import com.upc.authjwt20251.Entities.Usuario;
-import com.upc.authjwt20251.Service.UsuarioService;
+import com.upc.authjwt20251.Entities.Rol;
+import com.upc.authjwt20251.Repository.UsuarioRepository;
+import com.upc.authjwt20251.Repository.RolRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/usuario")
+@CrossOrigin
 public class UsuarioController {
 
-    private final UsuarioService usuarioService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
-    }
+    @Autowired
+    private RolRepository rolRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
-    public List<Map<String, Object>> listAll() {
-        List<Usuario> usuarios = usuarioService.findAll();
-        List<Map<String, Object>> response = new ArrayList<>();
-
-        for (Usuario u : usuarios) {
-            Map<String, Object> resp = new LinkedHashMap<>();
-            resp.put("id", u.getId());
-            resp.put("username", u.getUsername());
-            resp.put("password", u.getPassword());
-            resp.put("enabled", u.getEnabled());
-            resp.put("rolId", u.getRol().getId());
-            response.add(resp);
-        }
-
-        return response;
+    public List<Usuario> getAll() {
+        return usuarioRepository.findAll();
     }
 
     @PostMapping
-    public Map<String, Object> create(@RequestBody UsuarioDTO dto) {
-        Usuario u = usuarioService.create(dto);
+    public Usuario create(@RequestBody UsuarioDTO dto) {
 
-        Map<String, Object> resp = new LinkedHashMap<>();
-        resp.put("id", u.getId());
-        resp.put("username", u.getUsername());
-        resp.put("password", u.getPassword());
-        resp.put("enabled", u.getEnabled());
-        resp.put("rolId", u.getRol().getId());
+        Usuario user = new Usuario();
 
-        return resp;
+        user.setUsername(dto.getUsername());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setEnabled(true);
+
+        Rol rol = rolRepository.findById(dto.getRolId())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado: " + dto.getRolId()));
+
+        user.setRol(rol);
+
+        return usuarioRepository.save(user);
     }
 
     @PutMapping("/{id}")
-    public Map<String, Object> update(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
-        Usuario u = usuarioService.update(id, dto);
-        if (u == null) return null;
+    public Usuario update(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
 
-        Map<String, Object> resp = new LinkedHashMap<>();
-        resp.put("id", u.getId());
-        resp.put("username", u.getUsername());
-        resp.put("password", u.getPassword());
-        resp.put("enabled", u.getEnabled());
-        resp.put("rolId", u.getRol().getId());
+        Usuario user = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        return resp;
+        user.setUsername(dto.getUsername());
+        user.setEnabled(dto.getEnabled());
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        Rol rol = rolRepository.findById(dto.getRolId())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado: " + dto.getRolId()));
+
+        user.setRol(rol);
+
+        return usuarioRepository.save(user);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        usuarioService.delete(id);
+        usuarioRepository.deleteById(id);
     }
 }

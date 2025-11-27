@@ -97,4 +97,15 @@ public class PagoService {
                 pago.getReserva().getId()
         );
     }
+
+    public boolean delete(Long id) {
+        Pago pago = pagoRepository.findById(id).orElse(null);
+
+        if (pago == null) {
+            return false;
+        }
+
+        pagoRepository.delete(pago);
+        return true;
+    }
 }

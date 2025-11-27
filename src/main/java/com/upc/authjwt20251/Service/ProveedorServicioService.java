@@ -55,4 +55,21 @@ public class ProveedorServicioService {
         ProveedorServicio updated = proveedorServicioRepository.save(p);
         return toDTO(updated);
     }
+
+    public boolean delete(Long id) {
+        ProveedorServicio p = proveedorServicioRepository.findById(id).orElse(null);
+
+        if (p == null) {
+            return false;
+        }
+
+        proveedorServicioRepository.delete(p);
+        return true;
+    }
+
+    public ProveedorServicioDTO findByIdDTO(Long id) {
+        ProveedorServicio proveedor = proveedorServicioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
+        return toDTO(proveedor);
+    }
 }

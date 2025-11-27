@@ -37,4 +37,17 @@ public class DestinoService {
 
         return destinoRepository.save(buscado);
     }
+
+    public void delete(Long id) {
+        Destino buscado = destinoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Destino no encontrado con ID: " + id));
+
+        destinoRepository.delete(buscado);
+    }
+
+    public Destino findById(Long id) {
+        return destinoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Destino no encontrado"));
+    }
+
 }

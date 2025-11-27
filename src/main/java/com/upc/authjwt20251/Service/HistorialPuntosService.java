@@ -68,4 +68,15 @@ public class HistorialPuntosService {
         }
         return null;
     }
+
+    public boolean delete(Long id) {
+        HistorialPuntos h = historialPuntosRepository.findById(id).orElse(null);
+
+        if (h == null) {
+            return false;
+        }
+
+        historialPuntosRepository.delete(h);
+        return true;
+    }
 }

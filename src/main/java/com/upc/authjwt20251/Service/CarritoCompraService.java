@@ -88,4 +88,15 @@ public class CarritoCompraService {
                 detallesDTO
         );
     }
+
+    public boolean delete(Long id) {
+        CarritoCompra carrito = carritoCompraRepository.findById(id).orElse(null);
+
+        if (carrito == null) {
+            return false;
+        }
+
+        carritoCompraRepository.delete(carrito);
+        return true;
+    }
 }

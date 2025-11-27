@@ -44,4 +44,22 @@ public class ProveedorServicioController {
 
         return ResponseEntity.ok(actualizado);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = service.delete(id);
+
+        if (!eliminado) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ProveedorServicioDTO findById(@PathVariable Long id) {
+        return service.findByIdDTO(id);
+    }
 }

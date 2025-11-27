@@ -20,10 +20,6 @@ public class PaqueteActividadDTO {
     @Positive(message = "El precio debe ser un valor positivo.")
     private Double precio;
 
-    @NotNull(message = "El ID de la actividad es obligatorio.")
-    @Min(value = 1, message = "El ID de la actividad debe ser un valor positivo.")
-    private Long actividadId;
-
     @NotNull(message = "El ID del paquete turístico es obligatorio.")
     @Min(value = 1, message = "El ID del paquete turístico debe ser un valor positivo.")
     private Long paqueteTuristicoId;

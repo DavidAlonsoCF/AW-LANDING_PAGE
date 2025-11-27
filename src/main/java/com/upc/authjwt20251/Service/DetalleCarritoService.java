@@ -77,4 +77,15 @@ public class DetalleCarritoService {
         }
         return null;
     }
+
+    public boolean delete(Long id) {
+        DetalleCarrito d = detalleCarritoRepository.findById(id).orElse(null);
+
+        if (d == null) {
+            return false;
+        }
+
+        detalleCarritoRepository.delete(d);
+        return true;
+    }
 }

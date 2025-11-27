@@ -43,4 +43,16 @@ public class AlojamientoController {
         Alojamiento alojamiento = alojamientoService.update(id, dto);
         return modelMapper.map(alojamiento, AlojamientoDTO.class);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public void delete(@PathVariable Long id) {
+        alojamientoService.delete(id);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public AlojamientoDTO findById(@PathVariable Long id) {
+        return modelMapper.map(alojamientoService.findById(id), AlojamientoDTO.class);
+    }
 }

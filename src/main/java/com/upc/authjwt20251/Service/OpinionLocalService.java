@@ -72,4 +72,21 @@ public class OpinionLocalService {
         }
         return null;
     }
+
+    public boolean delete(Long id) {
+        OpinionLocal opin = opinionLocalRepository.findById(id).orElse(null);
+
+        if (opin == null) {
+            return false;
+        }
+
+        opinionLocalRepository.delete(opin);
+        return true;
+    }
+
+    public OpinionLocalDTO findById(Long id) {
+        OpinionLocal op = opinionLocalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No encontrado"));
+        return convertToDto(op);
+    }
 }

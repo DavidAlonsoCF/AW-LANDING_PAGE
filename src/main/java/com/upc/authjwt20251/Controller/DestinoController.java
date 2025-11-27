@@ -38,4 +38,18 @@ public class DestinoController {
     public ResponseEntity<Destino> update(@PathVariable Long id, @Valid @RequestBody DestinoDTO destinoDTO) {
         return new ResponseEntity<>(destinoService.update(id, destinoDTO), HttpStatus.OK);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        destinoService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public Destino findById(@PathVariable Long id) {
+        return destinoService.findById(id);
+    }
+
 }

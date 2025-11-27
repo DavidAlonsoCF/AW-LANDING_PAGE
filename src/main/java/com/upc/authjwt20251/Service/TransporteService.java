@@ -57,4 +57,15 @@ public class TransporteService {
 
         return dto;
     }
+
+    public boolean delete(Long id) {
+        Transporte t = repo.findById(id).orElse(null);
+
+        if (t == null) {
+            return false;
+        }
+
+        repo.delete(t);
+        return true;
+    }
 }

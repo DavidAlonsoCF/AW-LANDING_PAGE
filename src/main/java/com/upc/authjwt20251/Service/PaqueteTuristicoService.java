@@ -56,4 +56,20 @@ public class PaqueteTuristicoService {
                 })
                 .orElse(null);
     }
+
+    public boolean delete(Long id) {
+        PaqueteTuristico entity = repository.findById(id).orElse(null);
+
+        if (entity == null) {
+            return false;
+        }
+
+        repository.delete(entity);
+        return true;
+    }
+
+    public PaqueteTuristicoDTO findByIdDTO(Long id) {
+        return repository.findById(id).map(this::toDTO).orElseThrow(() -> new RuntimeException("No encontrado"));
+    }
+
 }

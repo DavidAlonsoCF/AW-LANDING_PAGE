@@ -75,4 +75,15 @@ public class OpinionTuristaService {
         }
         return null;
     }
+
+    public boolean delete(Long id) {
+        OpinionTurista op = opinionTuristaRepository.findById(id).orElse(null);
+
+        if (op == null) {
+            return false;
+        }
+
+        opinionTuristaRepository.delete(op);
+        return true;
+    }
 }

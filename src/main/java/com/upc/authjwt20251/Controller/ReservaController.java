@@ -67,4 +67,16 @@ public class ReservaController {
     public ResponseEntity<List<Object[]>> getReservasPorTransporte() {
         return new ResponseEntity<>(reservaService.countReservasPorTransporte(), HttpStatus.OK);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasAnyRole('TURISTA','ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = reservaService.delete(id);
+
+        if (!eliminado) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
 }

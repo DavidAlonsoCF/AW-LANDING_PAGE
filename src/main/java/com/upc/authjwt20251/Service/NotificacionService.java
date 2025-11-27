@@ -68,4 +68,15 @@ public class NotificacionService {
         }
         return null;
     }
+
+    public boolean delete(Long id) {
+        Notificacion n = notificacionRepository.findById(id).orElse(null);
+
+        if (n == null) {
+            return false;
+        }
+
+        notificacionRepository.delete(n);
+        return true;
+    }
 }

@@ -45,4 +45,23 @@ public class ProductoLocalController {
 
         return ResponseEntity.ok(updated);
     }
+
+    @DeleteMapping("/elimina/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = productoLocalService.delete(id);
+
+        if (!eliminado) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ProductoLocalDTO findById(@PathVariable Long id) {
+        return productoLocalService.findByIdDTO(id);
+    }
+
 }
