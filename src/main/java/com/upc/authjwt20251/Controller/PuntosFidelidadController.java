@@ -57,4 +57,10 @@ public class PuntosFidelidadController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/total/{usuarioId}")
+    @PreAuthorize("hasAnyRole('TURISTA', 'ADMINISTRADOR')")
+    public ResponseEntity<Integer> obtenerTotal(@PathVariable Long usuarioId) {
+        return ResponseEntity.ok(puntosFidelidadService.obtenerPuntosTotales(usuarioId));
+    }
 }

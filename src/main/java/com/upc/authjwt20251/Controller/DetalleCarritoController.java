@@ -47,9 +47,9 @@ public class DetalleCarritoController {
         boolean eliminado = detalleCarritoService.delete(id);
 
         if (!eliminado) {
-            return ResponseEntity.notFound().build(); // 404
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.noContent().build(); // 204
+        return ResponseEntity.noContent().build();
     }
 }

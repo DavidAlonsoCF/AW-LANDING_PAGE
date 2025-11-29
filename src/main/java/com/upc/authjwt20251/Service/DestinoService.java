@@ -49,5 +49,4 @@ public class DestinoService {
         return destinoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Destino no encontrado"));
     }
-
 }

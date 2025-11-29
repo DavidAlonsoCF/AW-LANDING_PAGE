@@ -79,4 +79,16 @@ public class HistorialPuntosService {
         historialPuntosRepository.delete(h);
         return true;
     }
+
+    public List<HistorialPuntosDTO> findByUsuarioId(Long idUsuario) {
+        return historialPuntosRepository.findByUsuarioId(idUsuario)
+                .stream()
+                .map(h -> new HistorialPuntosDTO(
+                        h.getId(),
+                        h.getUsuario().getId(),
+                        h.getPuntos(),
+                        h.getFecha()
+                ))
+                .toList();
+    }
 }

@@ -52,4 +52,10 @@ public class HistorialPuntosController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/usuario/{idUsuario}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<List<HistorialPuntosDTO>> getPuntosPorUsuario(@PathVariable Long idUsuario) {
+        return new ResponseEntity<>(historialPuntosService.findByUsuarioId(idUsuario), HttpStatus.OK);
+    }
 }

@@ -19,9 +19,6 @@ public class Role implements Serializable {
     @JoinColumn(name="user_id", nullable=false)
     private Users user;
 
-
-    //GETTERS AND SETTERES
-
     public Users getUser() {
         return user;
     }
@@ -45,5 +42,4 @@ public class Role implements Serializable {
     public void setRol(String rol) {
         this.rol = rol;
     }
-
 }

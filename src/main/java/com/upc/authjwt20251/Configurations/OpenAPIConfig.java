@@ -31,7 +31,7 @@ public class OpenAPIConfig {
                 .info(new Info()
                         .title("EVENTURA - PLATAFORMA DE TURISMO")
                         .version("v1.0")
-                        .description("Trabajo Parcial - Arquitectura de Aplicaciones Web.")
+                        .description("Trabajo Final - Arquitectura de Aplicaciones Web")
                 );
     }
 }

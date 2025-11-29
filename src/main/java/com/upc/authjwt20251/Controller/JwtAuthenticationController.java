@@ -35,8 +35,6 @@ public class JwtAuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         AuthResponse authResponse = new AuthResponse(token);
         return ResponseEntity.ok(authResponse);
-        //		return ResponseEntity.ok(new JwtResponse(token));
-
     }
     private void authenticate(String username, String password) throws Exception {
         try {
@@ -47,5 +45,4 @@ public class JwtAuthenticationController {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
-
 }

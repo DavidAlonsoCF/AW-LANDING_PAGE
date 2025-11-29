@@ -48,5 +48,4 @@ public class ActividadController {
     public ActividadDTO findById(@PathVariable Long id) {
         return actividadService.findByIdDTO(id);
     }
-
 }
